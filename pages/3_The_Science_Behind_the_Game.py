@@ -9,6 +9,8 @@ Welcome to the heart of our Agricultural Insurance Simulation Game! Here, we del
 
 Climate change is reshaping the agricultural landscape. Farmers worldwide are experiencing more frequent and severe weather events, such as droughts, floods, and heatwaves. These unpredictable conditions can devastate crops, leading to significant financial losses and threatening food security.
 
+One critical concept is the **return period**, which represents the average interval between extreme weather events. In recent years, studies have shown that climate change is shortening these return periods, meaning events like 1-in-100-year floods or droughts are now happening much more frequently. This increase in frequency makes it crucial for farmers to adapt their strategies and prepare for the unexpected. This is something you can see in the simulation as well.
+
 For instance, studies have shown that global warming has increased U.S. crop insurance losses by $27 billion over 27 years, highlighting the tangible impact of climate change on agriculture. 
 
 [Source: Stanford News](https://news.stanford.edu/2021/08/04/climate-change-crop-insurance/)
@@ -25,10 +27,10 @@ In regions like Africa, innovative insurance solutions have been implemented to 
 
 In our simulation game, you'll encounter scenarios that require you to make strategic decisions, much like real-world farmers. You'll choose between different farming personas, each with unique approaches to risk management:
 
-- **👩‍🌾 Traditional Farmer (No Insurance):** Relies on conventional methods without insurance coverage, facing higher risk during extreme events.
-- **👨‍🌾 Traditional Farmer (With Insurance):** Uses traditional practices but invests in insurance to mitigate potential losses.
-- **🌾 High-Risk Taker (No Insurance):** Pursues high-reward strategies without insurance, risking significant losses during adverse conditions.
-- **💼 Strategic Planner (With Insurance):** Combines advanced farming techniques with insurance coverage to balance risk and reward.
+- **👩‍🌾 Traditional Farmer (No Insurance):** Relies on conventional seeds without insurance coverage, facing higher risk during extreme events.
+- **👨‍🌾 Traditional Farmer (With Insurance):** Relies on conventional seeds but invests in insurance to mitigate potential losses.
+- **🌾 High-Risk Taker (No Insurance):** Combines high yielding seeds without insurance, risking significant losses during adverse conditions.
+- **💼 Strategic Planner (With Insurance):** Combines high yielding seeds with insurance coverage to balance risk and reward.
 
 Your decisions will influence outcomes, reflecting the importance of strategic planning in agriculture, especially under changing climatic conditions.
 
