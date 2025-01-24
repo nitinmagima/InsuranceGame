@@ -21,7 +21,7 @@ Agricultural insurance serves as a safety net for farmers, helping them manage t
 
 In regions like Africa, innovative insurance solutions have been implemented to enhance climate resilience. For example, the African Risk Capacity Group employs parametric insurance, issuing rapid payouts based on specific weather triggers, thereby providing timely support to affected farmers. 
 
-[Source: TIME](https://time.com/6172504/lesley-ndlovu/)
+[Source: TIME](https://time.com/7172504/lesley-ndlovu/)
 
 ## 🎯 Making Strategic Choices in the Face of Uncertainty
 
