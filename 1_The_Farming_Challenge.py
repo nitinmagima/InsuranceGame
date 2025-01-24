@@ -1,0 +1,359 @@
+import streamlit as st
+import numpy as np
+import pandas as pd
+import plotly.graph_objects as go
+
+st.set_page_config(
+    page_title="Agricultural Insurance Simulation Game",
+    page_icon="🌾",
+)
+
+# Set up the Streamlit app
+st.title("Welcome to the Agricultural Insurance Simulation Game! 🌾")
+
+# Collapsible Welcome Message
+with st.expander("Instructions!", expanded=False):
+    st.markdown("""
+    
+    ### 🌟 **How to Play** 🌾
+    
+    Step into the shoes of a farmer and navigate the exciting world of agriculture, where your decisions can lead to bountiful harvests or challenging seasons. This interactive experience lets you balance potential profits against the unpredictable forces of nature.
+
+    **How to Play:**
+    
+    Make your decisions using the panel on the left. 
+
+    1. **Choose Your Seeds** - Decide between traditional seeds (lower cost, standard yield) or high-quality seeds (higher cost, requires a loan, but offers greater potential).
+
+    2. **Decide on Insurance** - Will you safeguard your crops with insurance or take the risk without it?
+
+    3. **Understand how often events like droughts or floods might strike your farm.**
+
+    4. **Run the Simulation!**
+
+    ### 🧩 **Your Goal**  
+
+    Navigate the challenges of farming by balancing risk and reward! Will you prioritize safety, take bold risks, or find the perfect strategy? The choice is yours. Good luck, and may your crops grow tall! 🌱
+
+    To assist you in making informed decisions, refer to the table below, which outlines the costs and revenues associated with different seed types and insurance options. To change these values for the simulation, please visit the "Customize Your Farming Adventure" page.
+    """)
+
+# Initialize session state variables with default values if they don't exist
+default_params = {
+    'traditional_seed_cost': 80,           # Lower cost to reflect affordability of traditional seeds
+    'high_quality_seed_cost': 120,         # High-quality seeds are more expensive but not excessively so
+    'traditional_yield_revenue': 150,      # Revenue from traditional seeds should be modest but sustainable
+    'high_quality_yield_revenue': 350,     # Higher potential revenue to make high-quality seeds attractive
+    'insurance_payout': 120,               # Insurance payout should sufficiently offset losses in bad years
+    'insurance_premium': 15,               # A fair cost for insurance that isn't too high for players to avoid
+    'loan_interest_rate': 7.0              # Slightly higher interest rate to reflect real-world loan conditions
+}
+
+
+for key, value in default_params.items():
+    if key not in st.session_state:
+        st.session_state[key] = value
+
+# Create a DataFrame to display the parameters
+data = {
+    'Parameter': [
+        'Traditional Seed Cost',
+        'High Quality Seed Cost',
+        'Traditional Yield Revenue',
+        'High Quality Yield Revenue',
+        'Insurance Payout',
+        'Insurance Premium',
+        'Loan Interest Rate (%)'  # Added Loan Interest Rate to the DataFrame
+    ],
+    'Value': [
+        f"${st.session_state['traditional_seed_cost']}",
+        f"${st.session_state['high_quality_seed_cost']}",
+        f"${st.session_state['traditional_yield_revenue']}",
+        f"${st.session_state['high_quality_yield_revenue']}",
+        f"${st.session_state['insurance_payout']}",
+        f"${st.session_state['insurance_premium']}",
+        f"{st.session_state['loan_interest_rate']}%"  # Displaying the value from session state
+    ]
+}
+
+df = pd.DataFrame(data)
+
+# Function to apply row-wise styling
+def highlight_rows(row):
+    # Define a color for each parameter
+    colors = {
+        'Traditional Seed Cost': 'background-color: #FFDDC1',  # Light Orange
+        'High Quality Seed Cost': 'background-color: #FFDDC1',  # Light Orange
+        'Traditional Yield Revenue': 'background-color: #FFC3A0',  # Light Peach
+        'High Quality Yield Revenue': 'background-color: #FFC3A0',  # Light Peach
+        'Insurance Payout': 'background-color: #D4A5A5',  # Light Mauve
+        'Insurance Premium': 'background-color: #D4A5A5',  # Light Mauve
+        'Loan Interest Rate (%)': 'background-color: #D4A5A5'  # Light Mauve
+    }
+    return [colors.get(row['Parameter'], '')] * len(row)
+
+# Apply the styling
+styled_df = df.style.apply(highlight_rows, axis=1)
+
+# Collapsible DataFrame Display
+with st.expander("View Simulation Parameters", expanded=False):
+    st.dataframe(styled_df)
+
+st.sidebar.header("Make your Decisions!")
+
+# User Instructions in the Sidebar
+st.sidebar.markdown("🚜 **Ready to embark on this farming adventure? Make your choices and see if you can beat the odds!** ")
+
+# User inputs
+seed_type = st.sidebar.selectbox(
+    "**Choose Seed Type:**",
+    ("Traditional", "High Quality"),
+    help="Pick 'Traditional' for a safe bet with lower costs, or go big with 'High Quality', it—requires a loan but it comes with the promise of bigger yields! 🌽💪"
+)
+
+# Display loan information if High Quality seeds are selected
+if seed_type == "High Quality":
+    st.sidebar.markdown("**Note:** High Quality seeds require a loan.")
+    st.sidebar.markdown(f"**Loan Interest Rate:** {st.session_state['loan_interest_rate']}%")
+
+st.sidebar.divider()
+
+# Checkbox for purchasing insurance
+purchase_insurance = st.sidebar.checkbox(
+    "**Will you invest in insurance to safeguard your crops against unforeseen events?**",
+    help="Protect your crops or take a risk and see if not taking insurance is worth the gamble this season! 🌦️"
+)
+
+# If insurance is purchased, use the insurance premium from session state
+if purchase_insurance:
+    insurance_premium = st.session_state['insurance_premium']
+    insurance_payout = st.session_state['insurance_payout']
+    st.sidebar.markdown(
+        f"""
+        You've secured your crops with insurance!  
+        **Premium:** `${insurance_premium}`  
+        **Payout:** `${insurance_payout}` 🌦️✅
+        """
+    )
+else:
+    insurance_premium = 0.0
+    st.sidebar.markdown(f"No safety net this season—you're farming without insurance! 😨")
+
+st.sidebar.divider()
+
+# Define return period options
+return_period_options = [
+    ("Once in 2 years (50% chance per year)", 50),
+    ("Once in 5 years (20% chance per year)", 20),
+    ("Once in 10 years (10% chance per year)", 10),
+    ("Once in 20 years (5% chance per year)", 5),
+    ("Once in 50 years (2% chance per year)", 2),
+    ("Once in 100 years (1% chance per year)", 1)
+]
+
+# Create a dictionary for easy lookup
+return_period_dict = {label: prob for label, prob in return_period_options}
+
+# Select return period
+selected_return_period = st.sidebar.selectbox(
+    "**Select Return Period for Extreme Weather Events:**",
+    list(return_period_dict.keys()),
+    help="""
+    🌪️ **How Often Do Extreme Weather Events Strike?**  
+    Extreme weather is described as “once in N years.” For instance, a 1-in-5-year drought means a **20% chance** of it happening each year.  
+
+    But here's the twist: a 20% chance doesn't mean it won't happen back-to-back—nature loves surprises! Similarly, a "1-in-100-year" event doesn't wait a century to occur. It has a **1% chance** of happening every single year, no matter when it last occurred.  
+    Plan wisely and expect the unexpected! 🌦️
+    """
+)
+
+
+# Calculate the probability of a bad year
+bad_year_probability = return_period_dict[selected_return_period] / 100
+normal_year_probability = 1 - bad_year_probability
+
+
+# Initialize session state to store simulation history
+if 'simulation_history' not in st.session_state:
+    st.session_state['simulation_history'] = []
+
+# Function to simulate a single season
+def simulate_season():
+    # Determine the type of year (Normal or Bad) based on probabilities
+    year_type = np.random.choice(
+        ["Normal", "Bad"],  # Possible outcomes
+        p=[normal_year_probability, bad_year_probability]  # Probabilities for each outcome
+    )
+
+    # Calculate costs and revenue based on the chosen seed type
+    if seed_type == "Traditional":
+        # For traditional seeds, cost is fixed, and revenue depends on the year type
+        costs = st.session_state['traditional_seed_cost']
+        revenue = st.session_state['traditional_yield_revenue'] if year_type == "Normal" else 0
+    else:
+        # For high-quality seeds, include the loan interest in the cost
+        costs = st.session_state['high_quality_seed_cost'] * (1 + st.session_state['loan_interest_rate'] / 100)
+        # Revenue depends on the year type
+        revenue = st.session_state['high_quality_yield_revenue'] if year_type == "Normal" else 0
+
+    # Adjust costs and revenue if the year is "Bad" and insurance is purchased
+    if year_type == "Bad" and purchase_insurance:
+        revenue += st.session_state['insurance_payout']  # Add insurance payout to revenue
+        costs += insurance_premium  # Add insurance premium to costs
+    elif purchase_insurance:
+        costs += insurance_premium  # Add insurance premium even if the year is not "Bad"
+
+    # Calculate net profit
+    profit = revenue - costs
+
+    # Append results to simulation history
+    st.session_state['simulation_history'].append({
+        "Year Type": year_type,
+        "Revenue": revenue,
+        "Costs": costs,
+        "Net Profit": profit
+    })
+
+    # Return the results of the simulation
+    return year_type, revenue, costs, profit
+
+st.markdown("""
+    **Run Simulation**: Click the 'Run Simulation' button to simulate the farming season and view your financial outcomes.
+    """)
+
+# Function to reset simulation history
+def reset_simulation_history():
+    st.session_state['simulation_history'] = []
+    if "simulation_result" in st.session_state:
+        del st.session_state["simulation_result"]  # Clear the simulation result
+    st.success("Simulation history has been reset. Start fresh and simulate again!")
+
+
+# Function to display the reset confirmation message
+def show_reset_message():
+    st.success("Simulation history has been reset. Start fresh and simulate again!")
+
+# Create three columns with specified width ratios
+col1, col2, col3 = st.columns([2, 4, 2])
+
+# Place the "Reset Simulation History" button in the first column (left-aligned)
+with col3:
+    if st.button("Reset Simulation History", key="reset_button"):
+        reset_simulation_history()
+
+# Place the "Run Simulation" button in the third column (right-aligned)
+with col1:
+    if st.button("Run Simulation", key="run_button"):
+        year_type, revenue, costs, profit = simulate_season()
+        st.session_state["simulation_result"] = {
+            "year_type": year_type,
+            "revenue": revenue,
+            "costs": costs,
+            "profit": profit
+        }
+
+# Display the simulation outcome outside the columns
+if "simulation_result" in st.session_state:
+    st.subheader("Simulation Outcome!")
+    result = st.session_state["simulation_result"]
+    if result["profit"] < 0:
+        st.warning("Warning: You incurred a loss this season.")
+    else:
+        st.success("Success: You made a profit this season.")
+
+if st.session_state['simulation_history']:
+    history_df = pd.DataFrame(st.session_state['simulation_history'])
+
+    # --- Simulation Summary ---
+    total_revenue = history_df["Revenue"].sum()
+    total_costs = history_df["Costs"].sum()
+    total_net_profit = history_df["Net Profit"].sum()
+
+    st.markdown(f"""
+        ### 💰 Simulation Summary
+        - **Total Revenue:** ${total_revenue}
+        - **Total Costs:** ${total_costs}
+        - **Total Net Profit:** ${total_net_profit}
+    """)
+
+    # Define columns for the visualizations
+    col1, col2 = st.columns(2)
+
+    # --- 1. Breakdown of Costs vs. Revenue (Pie Chart) ---
+    with col1:
+        st.subheader("Breakdown of Costs vs. Revenue")
+        pie_fig = go.Figure(
+            data=[go.Pie(
+                labels=["Total Costs", "Total Revenue"],
+                values=[total_costs, total_revenue],
+                textinfo='label+percent',
+                marker=dict(colors=["#FF9999", "#99FF99"])  # Soft red and green
+            )]
+        )
+        pie_fig.update_layout(title=" ", title_x=0.5, title_font=dict(size=16, family="Arial"))
+        st.plotly_chart(pie_fig)
+
+    # --- 2. Year Type Analysis (Bar Chart) ---
+    with col2:
+        st.subheader("Year Type Analysis")
+        year_counts = history_df["Year Type"].value_counts()
+        bar_fig = go.Figure(
+            data=[go.Bar(
+                x=year_counts.index,
+                y=year_counts.values,
+                marker=dict(color=["#FF6666", "#99CCFF"])  # Soft blue and red
+            )]
+        )
+        bar_fig.update_layout(
+            title=" ",
+            xaxis_title="Year Type",
+            yaxis_title="Count",
+            title_x=0.5,
+            title_font=dict(size=16, family="Arial"),
+        )
+        st.plotly_chart(bar_fig)
+
+    # --- 3. Net Profit Over Simulations (Bar Chart) ---
+    st.subheader("Net Profit Over Simulations")
+    colors = ['#99FF99' if x >= 0 else '#FF9999' for x in history_df["Net Profit"]]  # Green for profit, red for loss
+    net_profit_fig = go.Figure(
+        data=[go.Bar(
+            x=[f"Sim {i+1}" for i in range(len(history_df))],
+            y=history_df["Net Profit"],
+            marker=dict(color=colors),
+            text=history_df["Net Profit"],
+            textposition='auto'
+        )]
+    )
+    net_profit_fig.update_layout(
+        title=" ",
+        xaxis_title="Simulation Number",
+        yaxis_title="Net Profit ($)",
+        title_x=0.5,
+        title_font=dict(size=16, family="Arial"),
+        shapes=[dict(type="line", x0=-0.5, x1=len(history_df)-0.5, y0=0, y1=0, line=dict(color="black", width=1, dash="dash"))]  # Reference line at 0
+    )
+    st.plotly_chart(net_profit_fig)
+
+    # Simulation History Table (below the chart)
+    st.subheader("Simulation History")
+
+    # Style rows based on the Year Type column
+    def highlight_rows(row):
+        if row["Year Type"] == "Normal":
+            return ['background-color: #DFF2BF'] * len(row)  # Light Green for Normal years
+        elif row["Year Type"] == "Bad":
+            return ['background-color: #FFBABA'] * len(row)  # Light Red for Bad years
+        else:
+            return [''] * len(row)  # No styling for others
+
+    styled_df = history_df.style.apply(highlight_rows, axis=1)
+    st.dataframe(styled_df)  # Display the styled DataFrame
+
+# Add a copyright line at the bottom of the page
+st.markdown(
+    "<div style='text-align: center; margin-top: 50px; font-size: 12px; color: gray;'>"
+    "© The National Center for Disaster Preparedness (NCDP) Columbia Climate School, at Columbia University. All rights reserved."
+    "</div>",
+    unsafe_allow_html=True
+)
