@@ -238,7 +238,7 @@ col1, col2, col3 = st.columns([2, 4, 2])
 
 # Place the "Reset Simulation History" button in the first column (left-aligned)
 with col3:
-    if st.button("Reset Simulation History", key="reset_button"):
+    if st.button("Reset Simulation", key="reset_button"):
         reset_simulation_history()
 
 # Place the "Run Simulation" button in the third column (right-aligned)

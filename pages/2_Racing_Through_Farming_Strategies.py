@@ -149,7 +149,7 @@ with col1:
         st.session_state["show_simulation_feedback"] = True
 
 with col3:
-    if st.button("Reset Simulation History"):
+    if st.button("Reset Simulation"):
         reset_simulation_history()
 
 # Display user feedback outside the column
