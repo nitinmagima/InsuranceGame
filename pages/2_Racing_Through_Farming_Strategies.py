@@ -134,6 +134,8 @@ def reset_simulation_history():
     for key in st.session_state["persona_simulation_history"]:
         st.session_state["persona_simulation_history"][key] = []
         st.session_state["years_record"][key] = []
+    # Reset the global year types
+    st.session_state["global_year_types"] = []
     st.success("Simulation reset successfully!")
 
 
