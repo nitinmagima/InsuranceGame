@@ -121,7 +121,11 @@ st.sidebar.divider()
 # Checkbox for purchasing insurance
 purchase_insurance = st.sidebar.checkbox(
     "**Will you invest in insurance to safeguard your crops against unforeseen events?**",
-    help="Protect your crops or take a risk and see if not taking insurance is worth the gamble this season! 🌦️"
+    help=(
+        "Protect your crops or take a risk and see if not taking insurance is worth the gamble this season! 🌦️\n\n"
+        "**Premium**: The amount you pay to obtain a crop insurance policy.\n\n"
+        "**Payout**: The compensation you receive from the insurance provider if your crops suffer losses due to covered events."
+    )
 )
 
 # If insurance is purchased, use the insurance premium from session state

@@ -52,6 +52,8 @@ if "years_record" not in st.session_state:
         "High_Quality_No_Insurance": [],
         "High_Quality_With_Insurance": [],
     }
+if "global_year_types" not in st.session_state:
+    st.session_state["global_year_types"] = []
 
 # --- Define Personas ---
 personas = [
@@ -141,6 +143,9 @@ with col1:
             ["Normal", "Bad"], p=[normal_year_probability, bad_year_probability]
         )
 
+        # Store the global year type for this simulation
+        st.session_state["global_year_types"].append(global_year_type)
+
         # Run the simulation for all personas using the global year type
         for persona in personas:
             simulate_season(persona, global_year_type)  # Pass the shared year type
@@ -165,43 +170,61 @@ if "show_simulation_feedback" in st.session_state and st.session_state["show_sim
     # Clear the feedback flag after displaying it
     st.session_state["show_simulation_feedback"] = False
 
+
+
 # --- Visualization: Race for Net Profit ---
 if any(st.session_state["persona_simulation_history"].values()):
     st.subheader("Net Profit Race 🏁")
 
     race_fig = go.Figure()
-    persona_emojis = {"Traditional_No_Insurance": "🌱", "Traditional_With_Insurance": "🛡️",
-                      "High_Quality_No_Insurance": "💎", "High_Quality_With_Insurance": "🚀"}
-    year_colors = {"Normal": "green", "Bad": "red"}
+    persona_emojis = {
+        "Traditional_No_Insurance": "🌱",
+        "Traditional_With_Insurance": "🛡️",
+        "High_Quality_No_Insurance": "💎",
+        "High_Quality_With_Insurance": "🚀",
+    }
+
+    # Create x-axis labels
+    x_labels = [f"{i + 1} ({year})" for i, year in enumerate(st.session_state['global_year_types'])]
 
     for persona in personas:
         name = persona["name"]
         history = st.session_state["persona_simulation_history"][name]
-        years = st.session_state["years_record"][name]
-        color_sequence = [year_colors[year] for year in years]
 
+        # Calculate cumulative profit
+        cumulative_profit = np.cumsum(history)
+
+        # Add traces for each persona
         race_fig.add_trace(go.Scatter(
-            x=list(range(1, len(history) + 1)),
-            y=history,
+            x=x_labels,
+            y=cumulative_profit,
             mode="lines+markers+text",
-            marker=dict(color=color_sequence, size=10),
+            marker=dict(size=10),
             name=f"{persona_emojis[name]} {name.replace('_', ' ')}",
-            text=[""] * (len(history) - 1) + [persona_emojis[name]],
+            text=[""] * (len(cumulative_profit) - 1) + [persona_emojis[name]],
             textposition="top center"
         ))
 
+    # Update layout with categorical x-axis
     race_fig.update_layout(
         title="Farming Personas: Profit Race",
-        xaxis_title="Simulation Number",
+        xaxis=dict(
+            title="Simulation Number (Year Type)",
+            type='category',
+            tickangle=45,
+        ),
         yaxis_title="Cumulative Profit ($)",
         template="plotly_white"
     )
+
+    # Display the chart
     st.plotly_chart(race_fig)
+
 
 # --- Leaderboard ---
 leaderboard = pd.DataFrame([
     {"Persona": persona["name"].replace("_", " "),
-     "Cumulative Profit": st.session_state["persona_simulation_history"][persona["name"]][-1] if
+     "Cumulative Profit": round(st.session_state["persona_simulation_history"][persona["name"]][-1], 2) if
      st.session_state["persona_simulation_history"][persona["name"]] else 0}
     for persona in personas
 ]).sort_values(by="Cumulative Profit", ascending=False)
