@@ -210,7 +210,7 @@ if any(st.session_state["persona_simulation_history"].values()):
             textposition="top center"
         ))
 
-    # Update layout with categorical x-axis
+    # # Update layout with categorical x-axis
     race_fig.update_layout(
         title="Farming Personas: Profit Race",
         xaxis=dict(
@@ -218,7 +218,22 @@ if any(st.session_state["persona_simulation_history"].values()):
             type='category',
             tickangle=45,
         ),
-        yaxis_title="Cumulative Profit ($)",
+        yaxis=dict(
+            title="Cumulative Profit ($)",
+        ),
+        shapes=[
+            # Add a persistent black line at y=0
+            dict(
+                type="line",
+                xref="paper",  # Relative to the entire x-axis
+                yref="y",  # Relative to the y-axis
+                x0=0,  # Start at the left side
+                x1=1,  # End at the right side
+                y0=0,  # Line is at y=0
+                y1=0,  # Line stays at y=0
+                line=dict(color="darkslategray", width=2),  # Dark black line with thicker width
+            )
+        ],
         template="plotly_white"
     )
 
@@ -228,9 +243,12 @@ if any(st.session_state["persona_simulation_history"].values()):
 
 # --- Leaderboard ---
 leaderboard = pd.DataFrame([
-    {"Persona": persona["name"].replace("_", " "),
-     "Cumulative Profit": round(st.session_state["persona_simulation_history"][persona["name"]][-1], 2) if
-     st.session_state["persona_simulation_history"][persona["name"]] else 0}
+    {
+        "Persona": persona["name"].replace("_", " "),
+        # Calculate cumulative profit using np.sum to ensure consistency
+        "Cumulative Profit": round(np.sum(st.session_state["persona_simulation_history"][persona["name"]]), 2)
+        if st.session_state["persona_simulation_history"][persona["name"]] else 0
+    }
     for persona in personas
 ]).sort_values(by="Cumulative Profit", ascending=False)
 
