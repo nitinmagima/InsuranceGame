@@ -2,6 +2,7 @@ import streamlit as st
 import numpy as np
 import pandas as pd
 import plotly.graph_objects as go
+import json
 
 st.set_page_config(
     page_title="Agricultural Insurance Simulation Game",
@@ -33,26 +34,33 @@ with st.expander("Instructions!", expanded=False):
 
     ### 🧩 **Your Goal**  
 
-    Navigate the challenges of farming by balancing risk and reward! Will you prioritize safety, take bold risks, or find the perfect strategy? The choice is yours. Good luck, and may your crops grow tall! 🌱
-
+    Navigate the challenges of farming by balancing risk and reward! Will you prioritize safety, take bold risks, or find the perfect strategy? The choice is yours. 
+    
+    **Farming Personas**
+    - 👩‍🌾 Traditional Farmer (Traditional Seeds With No Insurance)
+    - 👨‍🌾 Traditional Farmer (Traditional Seeds With Insurance)
+    - 🌾 High-Risk Taker (High-Quality Seeds With No Insurance)
+    - 💼 Strategic Planner (High-Quality Seeds With Insurance)
+    
+    Good luck, and may your crops grow tall! 🌱
+    
     To assist you in making informed decisions, refer to the table below, which outlines the costs and revenues associated with different seed types and insurance options. To change these values for the simulation, please visit the "Customize Your Farming Adventure" page.
     """)
 
 # Initialize session state variables with default values if they don't exist
-default_params = {
-    'traditional_seed_cost': 80,           # Lower cost to reflect affordability of traditional seeds
-    'high_quality_seed_cost': 120,         # High-quality seeds are more expensive but not excessively so
-    'traditional_yield_revenue': 150,      # Revenue from traditional seeds should be modest but sustainable
-    'high_quality_yield_revenue': 350,     # Higher potential revenue to make high-quality seeds attractive
-    'insurance_payout': 120,               # Insurance payout should sufficiently offset losses in bad years
-    'insurance_premium': 15,               # A fair cost for insurance that isn't too high for players to avoid
-    'loan_interest_rate': 7.0              # Slightly higher interest rate to reflect real-world loan conditions
-}
+# --- Default Parameters ---
+# Load configuration from JSON file
+def load_config(file_path="config.json"):
+    with open(file_path, "r") as file:
+        return json.load(file)
 
+# Load default parameters from the config file
+default_params = load_config()
 
 for key, value in default_params.items():
     if key not in st.session_state:
         st.session_state[key] = value
+
 
 # Create a DataFrame to display the parameters
 data = {

@@ -1,0 +1,9 @@
+{
+    "traditional_seed_cost": 80,
+    "high_quality_seed_cost": 120,
+    "traditional_yield_revenue": 150,
+    "high_quality_yield_revenue": 350,
+    "insurance_payout": 120,
+    "insurance_premium": 15,
+    "loan_interest_rate": 7.0
+}

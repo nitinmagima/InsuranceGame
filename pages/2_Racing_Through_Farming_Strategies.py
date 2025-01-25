@@ -2,6 +2,7 @@ import streamlit as st
 import numpy as np
 import plotly.graph_objects as go
 import pandas as pd
+import json
 
 st.set_page_config(
     page_title="Understanding Farming Strategies!",
@@ -14,7 +15,7 @@ st.title("🌟 Farming Personas: Compete for Profitability! 🌟")
 # --- Instructions Section ---
 with st.expander("Instructions", expanded=False):
     st.markdown("""
-        ### 🌟 **How to Play** 🌾
+        ### 🌟 **Compare Different Farming Persona Strategies** 🌾
 
         1. **Select Your Weather Risk:**  
            Decide how often extreme weather might strike using the return period selector on the left. 🌩️  
@@ -34,7 +35,7 @@ with st.expander("Instructions", expanded=False):
            Watch the race unfold and see who thrives under various conditions!
 
         4. **Analyze Results:**  
-           Check the leaderboard to identify the winning strategy and visualize the profit race. 🏆
+           Check the leaderboard to identify the winning strategy and visualize the profit. 🏆
     """)
 
 # --- Initialize Session State ---
@@ -64,15 +65,13 @@ personas = [
 ]
 
 # --- Default Parameters ---
-default_params = {
-    'traditional_seed_cost': 80,
-    'high_quality_seed_cost': 120,
-    'traditional_yield_revenue': 150,
-    'high_quality_yield_revenue': 350,
-    'insurance_payout': 120,
-    'insurance_premium': 15,
-    'loan_interest_rate': 7.0,
-}
+# Load configuration from JSON file
+def load_config(file_path="config.json"):
+    with open(file_path, "r") as file:
+        return json.load(file)
+
+# Load default parameters from the config file
+default_params = load_config()
 
 for key, value in default_params.items():
     if key not in st.session_state:
@@ -91,7 +90,13 @@ return_period_options = {
 selected_return_period = st.sidebar.selectbox(
     "Select Return Period for Extreme Weather Events:",
     options=list(return_period_options.keys()),
-    help="🌪️ Decide how frequently extreme weather events like droughts occur."
+    help="""
+        🌪️ **How Often Do Extreme Weather Events Strike?**  
+        Extreme weather is described as “once in N years.” For instance, a 1-in-5-year drought means a **20% chance** of it happening each year.  
+
+        But here's the twist: a 20% chance doesn't mean it won't happen back-to-back—nature loves surprises! Similarly, a "1-in-100-year" event doesn't wait a century to occur. It has a **1% chance** of happening every single year, no matter when it last occurred.  
+        Plan wisely and expect the unexpected! 🌦️
+        """
 )
 bad_year_probability = return_period_options[selected_return_period] / 100
 normal_year_probability = 1 - bad_year_probability
@@ -235,7 +240,7 @@ leaderboard["Rank"] = range(len(leaderboard))  # Assign ranks
 leaderboard["Emoji"] = leaderboard["Rank"].apply(lambda x: emoji_map[x] if x < len(emoji_map) else "🌾")
 leaderboard = leaderboard[["Emoji", "Persona", "Cumulative Profit"]]  # Reorder columns
 
-# Style the leaderboard as a fun and visually engaging markdown table
+# Style the leaderboard as a fun and visually engaging Markdown table
 st.subheader("🏆 🌟 The Farming Leaderboard 🌟")
 st.markdown("""
     **Which farmer is performing the best?**  
