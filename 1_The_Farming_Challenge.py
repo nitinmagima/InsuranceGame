@@ -36,6 +36,8 @@ with st.expander("Instructions!", expanded=False):
 
     Navigate the challenges of farming by balancing risk and reward! Will you prioritize safety, take bold risks, or find the perfect strategy? The choice is yours. 
     
+    Run multiple simulations to test strategies, adapt to challenges, and discover the best approach to thrive in any condition! Each simulation represents one farming season, where you test your chosen strategy against the unpredictability of weather conditions and market dynamics to evaluate how well your decisions balance risk, reward, and profitability. Running multiple simulations allows you to observe how your chosen strategy performs over time, under varying weather conditions, and helps you identify patterns, strengths, and weaknesses in your approach, ultimately aiding in refining your decision-making for long-term success. 
+    
     **Farming Personas**
     - 👩‍🌾 Traditional Farmer (Traditional Seeds With No Insurance)
     - 👨‍🌾 Traditional Farmer (Traditional Seeds With Insurance)

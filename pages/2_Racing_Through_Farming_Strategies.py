@@ -15,27 +15,28 @@ st.title("🌟 Farming Personas: Compete for Profitability! 🌟")
 # --- Instructions Section ---
 with st.expander("Instructions", expanded=False):
     st.markdown("""
-        ### 🌟 **Compare Different Farming Persona Strategies** 🌾
+### 🌟 **Compare Different Farming Persona Strategies** 🌾
 
-        1. **Select Your Weather Risk:**  
-           Decide how often extreme weather might strike using the return period selector on the left. 🌩️  
-           *E.g.*, "once in 2 years" means a 50% chance annually.
+1. **Select Your Weather Risk:**  
+   Decide how often extreme weather might strike using the return period selector on the left. 🌩️  
+   *E.g.*, "once in 2 years" means a 50% chance annually.
 
-        2. **Meet the Farming Personas:**  
-           - **👩‍🌾 Traditional Farmer (No Insurance):**  
-             A low-risk, budget-friendly approach, but vulnerable to disasters.  
-           - **👨‍🌾 Traditional Farmer (With Insurance):**  
-             Plays safe with insurance for moderate protection.  
-           - **🌾 High-Risk Taker (No Insurance):**  
-             A bold approach with high-quality seeds but no fallback plan.  
-           - **💼 Strategic Planner (With Insurance):**  
-             Combines high investment with risk management for steady profits.
+2. **Meet the Farming Personas:**  
+   - **👩‍🌾 Traditional Farmer (No Insurance):**  
+     A low-risk, budget-friendly approach, but vulnerable to disasters.  
+   - **👨‍🌾 Traditional Farmer (With Insurance):**  
+     Plays safe with insurance for moderate protection.  
+   - **🌾 High-Risk Taker (No Insurance):**  
+     A bold approach with high-quality seeds but no fallback plan.  
+   - **💼 Strategic Planner (With Insurance):**  
+     Combines high investment with risk management for steady profits.
 
-        3. **Run the Simulation:**  
-           Watch the race unfold and see who thrives under various conditions!
+3. **Run Multiple Simulations:**  
+   Watch the race unfold and see who thrives under various conditions! Each simulation represents one farming season, where the outcomes depend on weather conditions and your strategic decisions.
 
-        4. **Analyze Results:**  
-           Check the leaderboard to identify the winning strategy and visualize the profit. 🏆
+4. **Analyze Results:**  
+   Check the leaderboard to identify the winning strategy and visualize the profit. Running multiple simulations allows you to see how strategies perform over time, helping you refine your approach and uncover patterns for success. 🏆🌾
+
     """)
 
 # --- Initialize Session State ---
