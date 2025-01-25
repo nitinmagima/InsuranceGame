@@ -215,7 +215,7 @@ if any(st.session_state["persona_simulation_history"].values()):
 
     # # Update layout with categorical x-axis
     race_fig.update_layout(
-        title="Farming Personas: Profit Race",
+        title="Farming Personas: Cumulative Profit",
         xaxis=dict(
             title="Simulation Number (Year Type)",
             type='category',
