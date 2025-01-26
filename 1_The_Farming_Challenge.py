@@ -25,7 +25,7 @@ st.markdown(
       Once you've completed the farming challenge here, head over to the **Racing Through Farming Strategies** page to understand how your decisions compare to others under various weather conditions!  
 
     - **The Science Behind the Game**  
-      Explore the **The Science Behind the Game** page to dive into the real-world implications of risk and insurance in agriculture. Learn how extreme weather events and return periods affect farming strategies and profitability.  
+      Explore the **The Science Behind the Game** page to dive into the real-world implications of risk and insurance in agriculture. Learn how disasters and return periods affect farming strategies and profitability.  
 
     - **Customize Your Farming Adventure**  
       Visit the **Customize Your Farming Adventure** page to take control of the simulation. Adjust costs, revenues, and other parameters to explore how various factors impact farming outcomes.  
@@ -49,7 +49,7 @@ with st.expander("**Instructions!**", expanded=False):
 
     2. **Decide on Insurance** - Will you safeguard your crops with insurance or take the risk without it?
 
-    3. **Understand how often events like droughts or floods might strike your farm.**
+    3. **Understand how often disasters like droughts or floods might strike your farm.**
 
     4. **Run the Simulation!**
 
@@ -192,10 +192,10 @@ with st.expander("**Make your Decisions!**", expanded=False):
         "**Select Return Period for Extreme Weather Events:**",
         list(return_period_dict.keys()),
         help="""
-        🌪️ **How Often Do Extreme Weather Events Strike?**  
-        Extreme weather is described as “once in N years.” For instance, a 1-in-5-year drought means a **20% chance** of it happening each year.  
+        🌪️ **How Often Do Extreme Weather Events (Disasters) Strike?**  
+        Extreme weather or a disaster is described as “once in N years.” For instance, a 1-in-5-year drought means a **20% chance** of it happening each year.  
 
-        But here's the twist: a 20% chance doesn't mean it won't happen back-to-back—nature loves surprises! Similarly, a "1-in-100-year" event doesn't wait a century to occur. It has a **1% chance** of happening every single year, no matter when it last occurred.  
+        But here's the twist: a 20% chance doesn't mean it won't happen back-to-back—nature loves surprises! Similarly, a "1-in-100-year" disaster doesn't wait a century to occur. It has a **1% chance** of happening every single year, no matter when it last occurred.  
         Plan wisely and expect the unexpected! 🌦️
         """
     )

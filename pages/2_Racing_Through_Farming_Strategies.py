@@ -144,13 +144,13 @@ with st.expander("Simulation Settings", expanded=True):
         "Once in 100 years (1% chance per year)": 1,
     }
     selected_return_period = st.selectbox(
-        "Select Return Period for Extreme Weather Events:",
+        "Select Return Period for Extreme Weather Events (Disasters):",
         options=list(return_period_options.keys()),
         help="""
-            🌪️ **How Often Do Extreme Weather Events Strike?**  
-            Extreme weather is described as “once in N years.” For instance, a 1-in-5-year drought means a **20% chance** of it happening each year.  
+            🌪️ **How Often Do Extreme Weather Events (Disasters) Strike?**  
+            Extreme weather or a disaster is described as “once in N years.” For instance, a 1-in-5-year drought means a **20% chance** of it happening each year.  
 
-            But here's the twist: a 20% chance doesn't mean it won't happen back-to-back—nature loves surprises! Similarly, a "1-in-100-year" event doesn't wait a century to occur. It has a **1% chance** of happening every single year, no matter when it last occurred.  
+            But here's the twist: a 20% chance doesn't mean it won't happen back-to-back—nature loves surprises! Similarly, a "1-in-100-year" disaster doesn't wait a century to occur. It has a **1% chance** of happening every single year, no matter when it last occurred.  
             Plan wisely and expect the unexpected! 🌦️
             """
     )
