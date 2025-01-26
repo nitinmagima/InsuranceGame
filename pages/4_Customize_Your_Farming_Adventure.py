@@ -3,7 +3,6 @@ import streamlit as st
 st.title("Customize Your Farming Adventure ⚙️")
 
 st.markdown("""
-## 
 Welcome to the **Customize Your Farming Adventure Page**, where you have the power to fine-tune your simulation parameters and customize your farming experience. Here's what you can do:
 
 1. **Adjust Costs and Revenues**:
@@ -41,70 +40,73 @@ for key, value in default_params.items():
     if key not in st.session_state:
         st.session_state[key] = value
 
-# Reset button functionality
-if st.sidebar.button("Reset to Defaults"):
-    for key, value in default_params.items():
-        st.session_state[key] = value
-    st.success("Settings have been reset to default values.")
+# Adjust settings and reset functionality
+with st.expander("Simulation Settings and Adjustments", expanded=True):
+    # Reset button functionality
+    if st.button("Reset to Defaults"):
+        for key, value in default_params.items():
+            st.session_state[key] = value
+        st.success("Settings have been reset to default values.")
 
-# Sidebar sliders for settings
-st.session_state['traditional_seed_cost'] = st.sidebar.slider(
-    "Traditional Seed Cost ($):",
-    min_value=0,
-    max_value=100,
-    value=st.session_state['traditional_seed_cost'],
-    help="Set the cost of traditional seeds."
-)
+    st.markdown("### Adjust Simulation Parameters")
 
-st.session_state['traditional_yield_revenue'] = st.sidebar.slider(
-    "Traditional Yield Revenue ($):",
-    min_value=0,
-    max_value=500,
-    value=st.session_state['traditional_yield_revenue'],
-    help="Set the revenue from traditional yield."
-)
+    # Sliders for various settings
+    st.session_state['traditional_seed_cost'] = st.slider(
+        "Traditional Seed Cost ($):",
+        min_value=0,
+        max_value=100,
+        value=st.session_state['traditional_seed_cost'],
+        help="Set the cost of traditional seeds."
+    )
 
-st.session_state['high_quality_seed_cost'] = st.sidebar.slider(
-    "High Quality Seed Cost ($):",
-    min_value=0,
-    max_value=200,
-    value=st.session_state['high_quality_seed_cost'],
-    help="Set the cost of high-quality seeds."
-)
+    st.session_state['traditional_yield_revenue'] = st.slider(
+        "Traditional Yield Revenue ($):",
+        min_value=0,
+        max_value=500,
+        value=st.session_state['traditional_yield_revenue'],
+        help="Set the revenue from traditional yield."
+    )
 
-st.session_state['loan_interest_rate'] = st.sidebar.slider(
-    "Loan Interest Rate (%):",
-    min_value=0.0,
-    max_value=20.0,
-    value=st.session_state['loan_interest_rate'],
-    step=0.1,
-    help="Set the interest rate for loans taken to purchase high-quality seeds."
-)
+    st.session_state['high_quality_seed_cost'] = st.slider(
+        "High Quality Seed Cost ($):",
+        min_value=0,
+        max_value=200,
+        value=st.session_state['high_quality_seed_cost'],
+        help="Set the cost of high-quality seeds."
+    )
 
-st.session_state['high_quality_yield_revenue'] = st.sidebar.slider(
-    "High Quality Yield Revenue ($):",
-    min_value=0,
-    max_value=1000,
-    value=st.session_state['high_quality_yield_revenue'],
-    help="Set the revenue from high-quality yield."
-)
+    st.session_state['loan_interest_rate'] = st.slider(
+        "Loan Interest Rate (%):",
+        min_value=0.0,
+        max_value=20.0,
+        value=st.session_state['loan_interest_rate'],
+        step=0.1,
+        help="Set the interest rate for loans taken to purchase high-quality seeds."
+    )
 
-st.session_state['insurance_premium'] = st.sidebar.slider(
-    "Insurance Premium ($):",
-    min_value=0,
-    max_value=100,
-    value=st.session_state['insurance_premium'],
-    help="Set the cost of purchasing insurance for the season."
-)
+    st.session_state['high_quality_yield_revenue'] = st.slider(
+        "High Quality Yield Revenue ($):",
+        min_value=0,
+        max_value=1000,
+        value=st.session_state['high_quality_yield_revenue'],
+        help="Set the revenue from high-quality yield."
+    )
 
+    st.session_state['insurance_premium'] = st.slider(
+        "Insurance Premium ($):",
+        min_value=0,
+        max_value=100,
+        value=st.session_state['insurance_premium'],
+        help="Set the cost of purchasing insurance for the season."
+    )
 
-st.session_state['insurance_payout'] = st.sidebar.slider(
-    "Insurance Payout ($):",
-    min_value=0,
-    max_value=500,
-    value=st.session_state['insurance_payout'],
-    help="Set the insurance payout amount."
-)
+    st.session_state['insurance_payout'] = st.slider(
+        "Insurance Payout ($):",
+        min_value=0,
+        max_value=500,
+        value=st.session_state['insurance_payout'],
+        help="Set the insurance payout amount."
+    )
 
 
 # Check if any value has changed

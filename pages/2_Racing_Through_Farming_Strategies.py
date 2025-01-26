@@ -10,34 +10,18 @@ st.set_page_config(
 )
 
 # --- App Title ---
-st.title("🌟 Farming Personas: Compete for Profitability! 🌟")
+st.title("🌟 Racing Through Farming Strategies 🌾")
 
-# --- Instructions Section ---
-with st.expander("Instructions", expanded=False):
-    st.markdown("""
-### 🌟 **Compare Different Farming Persona Strategies** 🌾
+st.markdown("""
+So, you've taken on the Farming Challenge and made your choices—well done, farmer! 👩‍🌾👨‍🌾 But have you ever wondered how those decisions stack up against other strategies?  
 
-1. **Select Your Weather Risk:**  
-   Decide how often extreme weather might strike using the return period selector on the left. 🌩️  
-   *E.g.*, "once in 2 years" means a 50% chance annually.
+This is your chance to explore how other farmers would have performed under different weather scenarios. Curious to see how the **Traditional Farmer** or the **Strategic Planner** handles extreme weather? Or maybe you're intrigued by the bold decisions of a high-risk taker versus the cautious approach of an insured farmer.  
 
-2. **Meet the Farming Personas:**  
-   - **👩‍🌾 Traditional Farmer (No Insurance):**  
-     A low-risk, budget-friendly approach, but vulnerable to disasters.  
-   - **👨‍🌾 Traditional Farmer (With Insurance):**  
-     Plays safe with insurance for moderate protection.  
-   - **🌾 High-Risk Taker (No Insurance):**  
-     A bold approach with high-quality seeds but no fallback plan.  
-   - **💼 Strategic Planner (With Insurance):**  
-     Combines high investment with risk management for steady profits.
+Watch as different personas navigate the challenges of unpredictable weather, revealing how various choices impact their outcomes.  
 
-3. **Run Multiple Simulations:**  
-   Watch the race unfold and see who thrives under various conditions! Each simulation represents one farming season, where the outcomes depend on weather conditions and your strategic decisions.
+Once you've explored your strategies here, don't forget to try the **Science Behind the Game** page to uncover the real-world implications of risk and insurance in farming!
+""")
 
-4. **Analyze Results:**  
-   Check the leaderboard to identify the winning strategy and visualize the profit. Running multiple simulations allows you to see how strategies perform over time, helping you refine your approach and uncover patterns for success. 🏆🌾
-
-    """)
 
 # --- Initialize Session State ---
 if "persona_simulation_history" not in st.session_state:
@@ -78,27 +62,98 @@ for key, value in default_params.items():
     if key not in st.session_state:
         st.session_state[key] = value
 
-# --- Sidebar Settings ---
-st.sidebar.header("Simulation Settings")
-return_period_options = {
-    "Once in 2 years (50% chance per year)": 50,
-    "Once in 5 years (20% chance per year)": 20,
-    "Once in 10 years (10% chance per year)": 10,
-    "Once in 20 years (5% chance per year)": 5,
-    "Once in 50 years (2% chance per year)": 2,
-    "Once in 100 years (1% chance per year)": 1,
-}
-selected_return_period = st.sidebar.selectbox(
-    "Select Return Period for Extreme Weather Events:",
-    options=list(return_period_options.keys()),
-    help="""
-        🌪️ **How Often Do Extreme Weather Events Strike?**  
-        Extreme weather is described as “once in N years.” For instance, a 1-in-5-year drought means a **20% chance** of it happening each year.  
+# --- Farming Parameters ---
+# Load parameters into a DataFrame
+parameters_df = pd.DataFrame([
+    {
+        "Setting": "Traditional Seed Cost",
+        "Value": f"${st.session_state['traditional_seed_cost']}"
+    },
+    {
+        "Setting": "High Quality Seed Cost",
+        "Value": f"${st.session_state['high_quality_seed_cost']}"
+    },
+    {
+        "Setting": "Traditional Yield Revenue",
+        "Value": f"${st.session_state['traditional_yield_revenue']}"
+    },
+    {
+        "Setting": "High Quality Yield Revenue",
+        "Value": f"${st.session_state['high_quality_yield_revenue']}"
+    },
+    {
+        "Setting": "Insurance Payout",
+        "Value": f"${st.session_state['insurance_payout']}"
+    },
+    {
+        "Setting": "Insurance Premium",
+        "Value": f"${st.session_state['insurance_premium']}"
+    },
+    {
+        "Setting": "Loan Interest Rate (%)",
+        "Value": f"{st.session_state['loan_interest_rate']}%"
+    }
+])
 
-        But here's the twist: a 20% chance doesn't mean it won't happen back-to-back—nature loves surprises! Similarly, a "1-in-100-year" event doesn't wait a century to occur. It has a **1% chance** of happening every single year, no matter when it last occurred.  
-        Plan wisely and expect the unexpected! 🌦️
-        """
-)
+# --- Instructions Section ---
+with st.expander("Instructions", expanded=False):
+    st.markdown("""
+### 🌟 **Compare Different Farming Persona Strategies** 🌾
+
+1. **Select Your Weather Risk:**  
+   Decide how often extreme weather might strike using the return period selector on the left. 🌩️  
+   *E.g.*, "once in 2 years" means a 50% chance annually.
+
+2. **Meet the Farming Personas:**  
+   - **👩‍🌾 Traditional Farmer (No Insurance):**  
+     A low-risk, budget-friendly approach of using traditional seeds, but vulnerable to disasters.  
+   - **👨‍🌾 Traditional Farmer (With Insurance):**  
+     Plays safe with insurance for moderate protection while using traditional seeds.  
+   - **🌾 High-Risk Taker (No Insurance):**  
+     A bold approach with high-quality seeds but no fallback plan.  
+   - **💼 Strategic Planner (With Insurance):**  
+     Combines high investment of high quality seeds with risk management for steady profits.
+
+3. **Run Multiple Simulations:**  
+   Watch the race unfold and see who thrives under various conditions! Each simulation represents one farming season, where the outcomes depend on weather conditions and the farming persona's strategic decisions.
+
+4. **Analyze Results:**  
+   Check the leaderboard to identify the winning strategy and visualize the profit. Running multiple simulations allows you to see how strategies perform over time, helping you refine your approach and uncover patterns for success. 🏆🌾
+    """)
+
+    st.markdown("""
+            To assist you in making informed decisions, refer to the table below, which outlines the costs and revenues associated with different seed types and insurance options. To change these default values for the simulations, please visit the **Customize Your Farming Adventure** page.
+            """)
+
+    st.markdown("""
+            **Here are the current farming costs and revenues for your simulations:**  
+        """)
+
+    # Convert parameters DataFrame to a markdown-styled table
+    styled_parameters = parameters_df.to_markdown(index=False, tablefmt="pretty")
+    st.markdown(f"```\n{styled_parameters}\n```")
+
+# --- Simulation Settings ---
+with st.expander("Simulation Settings", expanded=True):
+    return_period_options = {
+        "Once in 2 years (50% chance per year)": 50,
+        "Once in 5 years (20% chance per year)": 20,
+        "Once in 10 years (10% chance per year)": 10,
+        "Once in 20 years (5% chance per year)": 5,
+        "Once in 50 years (2% chance per year)": 2,
+        "Once in 100 years (1% chance per year)": 1,
+    }
+    selected_return_period = st.selectbox(
+        "Select Return Period for Extreme Weather Events:",
+        options=list(return_period_options.keys()),
+        help="""
+            🌪️ **How Often Do Extreme Weather Events Strike?**  
+            Extreme weather is described as “once in N years.” For instance, a 1-in-5-year drought means a **20% chance** of it happening each year.  
+
+            But here's the twist: a 20% chance doesn't mean it won't happen back-to-back—nature loves surprises! Similarly, a "1-in-100-year" event doesn't wait a century to occur. It has a **1% chance** of happening every single year, no matter when it last occurred.  
+            Plan wisely and expect the unexpected! 🌦️
+            """
+    )
 bad_year_probability = return_period_options[selected_return_period] / 100
 normal_year_probability = 1 - bad_year_probability
 

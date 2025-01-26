@@ -12,8 +12,29 @@ st.set_page_config(
 # Set up the Streamlit app
 st.title("Welcome to the Agricultural Insurance Simulation Game! 🌾")
 
+import streamlit as st
+
+st.markdown(
+    """
+    Embark on an interactive journey that explores the fascinating dynamics of farming, risk management, and climate change. Here's what awaits you:  
+
+    - **The Farming Challenge**  
+      Customize your farming setup by choosing seed types, insurance options, and return periods for extreme weather. Experiment with different strategies to find the perfect balance between risk and reward!  
+
+    - **Racing Through Farming Strategies**  
+      Once you've completed the farming challenge here, head over to the **Racing Through Farming Strategies** page to understand how your decisions compare to others under various weather conditions!  
+
+    - **The Science Behind the Game**  
+      Explore the **The Science Behind the Game** page to dive into the real-world implications of risk and insurance in agriculture. Learn how extreme weather events and return periods affect farming strategies and profitability.  
+
+    - **Customize Your Farming Adventure**  
+      Visit the **Customize Your Farming Adventure** page to take control of the simulation. Adjust costs, revenues, and other parameters to explore how various factors impact farming outcomes.  
+    """
+)
+
+
 # Collapsible Welcome Message
-with st.expander("Instructions!", expanded=False):
+with st.expander("**Instructions!**", expanded=False):
     st.markdown("""
     
     ### 🌟 **How to Play** 🌾
@@ -22,7 +43,7 @@ with st.expander("Instructions!", expanded=False):
 
     **How to Play:**
     
-    Make your decisions using the panel on the left. 
+    Make your decisions using the options below. 
 
     1. **Choose Your Seeds** - Decide between traditional seeds (lower cost, standard yield) or high-quality seeds (higher cost, requires a loan, but offers greater potential).
 
@@ -45,8 +66,6 @@ with st.expander("Instructions!", expanded=False):
     - 💼 Strategic Planner (High-Quality Seeds With Insurance)
     
     Good luck, and may your crops grow tall! 🌱
-    
-    To assist you in making informed decisions, refer to the table below, which outlines the costs and revenues associated with different seed types and insurance options. To change these values for the simulation, please visit the "Customize Your Farming Adventure" page.
     """)
 
 # Initialize session state variables with default values if they don't exist
@@ -64,122 +83,122 @@ for key, value in default_params.items():
         st.session_state[key] = value
 
 
-# Create a DataFrame to display the parameters
-data = {
-    'Parameter': [
-        'Traditional Seed Cost',
-        'High Quality Seed Cost',
-        'Traditional Yield Revenue',
-        'High Quality Yield Revenue',
-        'Insurance Payout',
-        'Insurance Premium',
-        'Loan Interest Rate (%)'  # Added Loan Interest Rate to the DataFrame
-    ],
-    'Value': [
-        f"${st.session_state['traditional_seed_cost']}",
-        f"${st.session_state['high_quality_seed_cost']}",
-        f"${st.session_state['traditional_yield_revenue']}",
-        f"${st.session_state['high_quality_yield_revenue']}",
-        f"${st.session_state['insurance_payout']}",
-        f"${st.session_state['insurance_premium']}",
-        f"{st.session_state['loan_interest_rate']}%"  # Displaying the value from session state
-    ]
-}
-
-df = pd.DataFrame(data)
-
-# Function to apply row-wise styling
-def highlight_rows(row):
-    # Define a color for each parameter
-    colors = {
-        'Traditional Seed Cost': 'background-color: #FFDDC1',  # Light Orange
-        'High Quality Seed Cost': 'background-color: #FFDDC1',  # Light Orange
-        'Traditional Yield Revenue': 'background-color: #FFC3A0',  # Light Peach
-        'High Quality Yield Revenue': 'background-color: #FFC3A0',  # Light Peach
-        'Insurance Payout': 'background-color: #D4A5A5',  # Light Mauve
-        'Insurance Premium': 'background-color: #D4A5A5',  # Light Mauve
-        'Loan Interest Rate (%)': 'background-color: #D4A5A5'  # Light Mauve
+# --- Farming Parameters ---
+# Load parameters into a DataFrame
+parameters_df = pd.DataFrame([
+    {
+        "Setting": "Traditional Seed Cost",
+        "Value": f"${st.session_state['traditional_seed_cost']}"
+    },
+    {
+        "Setting": "High Quality Seed Cost",
+        "Value": f"${st.session_state['high_quality_seed_cost']}"
+    },
+    {
+        "Setting": "Traditional Yield Revenue",
+        "Value": f"${st.session_state['traditional_yield_revenue']}"
+    },
+    {
+        "Setting": "High Quality Yield Revenue",
+        "Value": f"${st.session_state['high_quality_yield_revenue']}"
+    },
+    {
+        "Setting": "Insurance Payout",
+        "Value": f"${st.session_state['insurance_payout']}"
+    },
+    {
+        "Setting": "Insurance Premium",
+        "Value": f"${st.session_state['insurance_premium']}"
+    },
+    {
+        "Setting": "Loan Interest Rate (%)",
+        "Value": f"{st.session_state['loan_interest_rate']}%"
     }
-    return [colors.get(row['Parameter'], '')] * len(row)
+])
 
-# Apply the styling
-styled_df = df.style.apply(highlight_rows, axis=1)
+# User Instructions and Inputs
+with st.expander("**Make your Decisions!**", expanded=False):
+    st.markdown("""
 
-# Collapsible DataFrame Display
-with st.expander("View Simulation Parameters", expanded=False):
-    st.dataframe(styled_df)
+        ### 🚜 **Ready to embark on this farming adventure? Make your choices and see if you can beat the odds!**
 
-st.sidebar.header("Make your Decisions!")
+        To assist you in making informed decisions, refer to the table below, which outlines the costs and revenues associated with different seed types and insurance options. To change these default values for the simulations, please visit the **Customize Your Farming Adventure** page.
+        """)
 
-# User Instructions in the Sidebar
-st.sidebar.markdown("🚜 **Ready to embark on this farming adventure? Make your choices and see if you can beat the odds!** ")
+    st.markdown("""
+        **Here are the current farming costs and revenues for your simulations:**  
+    """)
 
-# User inputs
-seed_type = st.sidebar.selectbox(
-    "**Choose Seed Type:**",
-    ("Traditional", "High Quality"),
-    help="Pick 'Traditional' for a safe bet with lower costs, or go big with 'High Quality', it—requires a loan but it comes with the promise of bigger yields! 🌽💪"
-)
+    # Convert parameters DataFrame to a markdown-styled table
+    styled_parameters = parameters_df.to_markdown(index=False, tablefmt="pretty")
+    st.markdown(f"```\n{styled_parameters}\n```")
 
-# Display loan information if High Quality seeds are selected
-if seed_type == "High Quality":
-    st.sidebar.markdown("**Note:** High Quality seeds require a loan.")
-    st.sidebar.markdown(f"**Loan Interest Rate:** {st.session_state['loan_interest_rate']}%")
-
-st.sidebar.divider()
-
-# Checkbox for purchasing insurance
-purchase_insurance = st.sidebar.checkbox(
-    "**Will you invest in insurance to safeguard your crops against unforeseen events?**",
-    help=(
-        "Protect your crops or take a risk and see if not taking insurance is worth the gamble this season! 🌦️\n\n"
-        "**Premium**: The amount you pay to obtain a crop insurance policy.\n\n"
-        "**Payout**: The compensation you receive from the insurance provider if your crops suffer losses due to covered events."
+    # User inputs
+    seed_type = st.selectbox(
+        "**Choose Seed Type:**",
+        ("Traditional", "High Quality"),
+        help="Pick 'Traditional' for a safe bet with lower costs, or go big with 'High Quality', it—requires a loan but it comes with the promise of bigger yields! 🌽💪"
     )
-)
 
-# If insurance is purchased, use the insurance premium from session state
-if purchase_insurance:
-    insurance_premium = st.session_state['insurance_premium']
-    insurance_payout = st.session_state['insurance_payout']
-    st.sidebar.markdown(
-        f"""
-        You've secured your crops with insurance!  
-        **Premium:** `${insurance_premium}`  
-        **Payout:** `${insurance_payout}` 🌦️✅
+    # Display loan information if High Quality seeds are selected
+    if seed_type == "High Quality":
+        st.markdown("**Note:** High Quality seeds require a loan.")
+        st.markdown(f"**Loan Interest Rate:** {st.session_state['loan_interest_rate']}%")
+
+    st.divider()
+
+    # Checkbox for purchasing insurance
+    purchase_insurance = st.checkbox(
+        "**Will you invest in insurance to safeguard your crops against unforeseen events?**",
+        help=(
+            "Protect your crops or take a risk and see if not taking insurance is worth the gamble this season! 🌦️\n\n"
+            "**Premium**: The amount you pay to obtain a crop insurance policy.\n\n"
+            "**Payout**: The compensation you receive from the insurance provider if your crops suffer losses due to covered events."
+        )
+    )
+
+    # If insurance is purchased, use the insurance premium from session state
+    if purchase_insurance:
+        insurance_premium = st.session_state['insurance_premium']
+        insurance_payout = st.session_state['insurance_payout']
+        st.markdown(
+            f"""
+            You've secured your crops with insurance!  
+            **Premium:** `${insurance_premium}`  
+            **Payout:** `${insurance_payout}` 🌦️✅
+            """
+        )
+    else:
+        insurance_premium = 0.0
+        st.markdown(f"No safety net this season—you're farming without insurance! 😨")
+
+    st.divider()
+
+    # Define return period options
+    return_period_options = [
+        ("Once in 2 years (50% chance per year)", 50),
+        ("Once in 5 years (20% chance per year)", 20),
+        ("Once in 10 years (10% chance per year)", 10),
+        ("Once in 20 years (5% chance per year)", 5),
+        ("Once in 50 years (2% chance per year)", 2),
+        ("Once in 100 years (1% chance per year)", 1)
+    ]
+
+    # Create a dictionary for easy lookup
+    return_period_dict = {label: prob for label, prob in return_period_options}
+
+    # Select return period
+    selected_return_period = st.selectbox(
+        "**Select Return Period for Extreme Weather Events:**",
+        list(return_period_dict.keys()),
+        help="""
+        🌪️ **How Often Do Extreme Weather Events Strike?**  
+        Extreme weather is described as “once in N years.” For instance, a 1-in-5-year drought means a **20% chance** of it happening each year.  
+
+        But here's the twist: a 20% chance doesn't mean it won't happen back-to-back—nature loves surprises! Similarly, a "1-in-100-year" event doesn't wait a century to occur. It has a **1% chance** of happening every single year, no matter when it last occurred.  
+        Plan wisely and expect the unexpected! 🌦️
         """
     )
-else:
-    insurance_premium = 0.0
-    st.sidebar.markdown(f"No safety net this season—you're farming without insurance! 😨")
-
-st.sidebar.divider()
-
-# Define return period options
-return_period_options = [
-    ("Once in 2 years (50% chance per year)", 50),
-    ("Once in 5 years (20% chance per year)", 20),
-    ("Once in 10 years (10% chance per year)", 10),
-    ("Once in 20 years (5% chance per year)", 5),
-    ("Once in 50 years (2% chance per year)", 2),
-    ("Once in 100 years (1% chance per year)", 1)
-]
-
-# Create a dictionary for easy lookup
-return_period_dict = {label: prob for label, prob in return_period_options}
-
-# Select return period
-selected_return_period = st.sidebar.selectbox(
-    "**Select Return Period for Extreme Weather Events:**",
-    list(return_period_dict.keys()),
-    help="""
-    🌪️ **How Often Do Extreme Weather Events Strike?**  
-    Extreme weather is described as “once in N years.” For instance, a 1-in-5-year drought means a **20% chance** of it happening each year.  
-
-    But here's the twist: a 20% chance doesn't mean it won't happen back-to-back—nature loves surprises! Similarly, a "1-in-100-year" event doesn't wait a century to occur. It has a **1% chance** of happening every single year, no matter when it last occurred.  
-    Plan wisely and expect the unexpected! 🌦️
-    """
-)
 
 
 # Calculate the probability of a bad year
@@ -223,9 +242,9 @@ def simulate_season():
     # Append results to simulation history
     st.session_state['simulation_history'].append({
         "Year Type": year_type,
-        "Revenue": revenue,
-        "Costs": costs,
-        "Net Profit": profit
+        "Revenue": round(revenue, 2),
+        "Costs": round(costs, 2),
+        "Net Profit": round(profit, 2)
     })
 
     # Return the results of the simulation
