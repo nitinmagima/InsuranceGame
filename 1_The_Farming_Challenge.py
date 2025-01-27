@@ -18,16 +18,16 @@ st.markdown(
     """
     Embark on an interactive journey that explores the fascinating dynamics of farming, risk management, and climate change. Here's what awaits you:  
 
-    - **The Farming Challenge**  
+    - **[The Farming Challenge](https://agri-insurance-game.streamlit.app/)**   
       Customize your farming setup by choosing seed types, insurance options, and return periods for extreme weather. Experiment with different strategies to find the perfect balance between risk and reward!  
 
-    - **Racing Through Farming Strategies**  
+    - **[Racing Through Farming Strategies](https://agri-insurance-game.streamlit.app/Racing_Through_Farming_Strategies)**  
       Once you've completed the farming challenge here, head over to the **Racing Through Farming Strategies** page to understand how your decisions compare to others under various weather conditions!  
 
-    - **The Science Behind the Game**  
+    - **[The Science Behind the Game](https://agri-insurance-game.streamlit.app/The_Science_Behind_the_Game)**  
       Explore the **The Science Behind the Game** page to dive into the real-world implications of risk and insurance in agriculture. Learn how disasters and return periods affect farming strategies and profitability.  
 
-    - **Customize Your Farming Adventure**  
+    - **[Customize Your Farming Adventure](https://agri-insurance-game.streamlit.app/Customize_Your_Farming_Adventure)**  
       Visit the **Customize Your Farming Adventure** page to take control of the simulation. Adjust costs, revenues, and other parameters to explore how various factors impact farming outcomes.  
     """
 )
@@ -39,27 +39,40 @@ with st.expander("**Instructions!**", expanded=False):
     
     ### 🌟 **How to Play** 🌾
     
-    Step into the shoes of a farmer and navigate the exciting world of agriculture, where your decisions can lead to bountiful harvests or challenging seasons. This interactive experience lets you balance potential profits against the unpredictable forces of nature.
-
+    Step into the shoes of a farmer and navigate the exciting world of agriculture, where your decisions can lead to bountiful harvests or challenging seasons. This interactive experience lets you balance potential rewards against the unpredictable forces of nature.
+    
     **How to Play:**
     
-    Make your decisions using the options below. 
-
-    1. **Choose Your Seeds** - Decide between traditional seeds (lower cost, standard yield) or high-quality seeds (higher cost, requires a loan, but offers greater potential).
-
-    2. **Decide on Insurance** - Will you safeguard your crops with insurance or take the risk without it?
-
-    3. **Understand how often disasters like droughts or floods might strike your farm.**
-
-    4. **Run the Simulation!**
+    1. **🌱 Choose Your Seeds**  
+       - **Traditional Seeds**: Lower cost and modest yields. A safer but less profitable option.  
+       - **High-Quality Seeds**: Higher cost and greater potential yields but requires a loan, increasing your financial risk.
+    
+    2. **🛡️ Decide on Insurance**  
+       - Will you safeguard your crops with insurance to mitigate losses during bad weather, or take the risk and farm without it?
+    
+    3. **🌦️ Understand the Weather**  
+       - Disasters like droughts or floods are unpredictable. Explore the likelihood of extreme weather events through **return periods**:  
+         - *Short return periods*: Frequent extreme weather.  
+         - *Long return periods*: Rare extreme weather.  
+    
+    4. **🚜 Run the Simulation**  
+       - Each simulation represents one farming season, where you test your chosen strategy against the unpredictability of weather conditions and market dynamics. Witness the results of your decisions as the simulation calculates:  
+         - **Year Type**: Is it a normal year or a bad year?  
+         - **Revenue**: Earnings from your crops.  
+         - **Costs**: Seed, loan interest, and insurance expenses.  
+         - **Net Profit**: Revenue minus costs.
+         
+    5. **🔁 Run Multiple Simulations**  
+       - Running multiple simulations helps you observe how your strategy performs over time, under varying weather conditions. 
+       - Test your strategies, adapt to challenges, and discover the best approach to thrive in any condition.  
 
     ### 🧩 **Your Goal**  
 
     Navigate the challenges of farming by balancing risk and reward! Will you prioritize safety, take bold risks, or find the perfect strategy? The choice is yours. 
     
-    Run multiple simulations to test strategies, adapt to challenges, and discover the best approach to thrive in any condition! Each simulation represents one farming season, where you test your chosen strategy against the unpredictability of weather conditions and market dynamics to evaluate how well your decisions balance risk, reward, and profitability. Running multiple simulations allows you to observe how your chosen strategy performs over time, under varying weather conditions, and helps you identify patterns, strengths, and weaknesses in your approach, ultimately aiding in refining your decision-making for long-term success. 
+    Run multiple simulations to see how your chosen strategy performs over time! 🌟   
     
-    **Farming Personas**
+    **Farming Strategies**
     - 👩‍🌾 Traditional Farmer (Traditional Seeds With No Insurance)
     - 👨‍🌾 Traditional Farmer (Traditional Seeds With Insurance)
     - 🌾 High-Risk Taker (High-Quality Seeds With No Insurance)
@@ -250,8 +263,8 @@ def simulate_season():
     # Return the results of the simulation
     return year_type, revenue, costs, profit
 
-st.markdown("""
-    **Run Simulation**: Click the 'Run Simulation' button to simulate the farming season and view your financial outcomes.
+st.info("""
+    **Run Simulation**: Click the 'Run Simulation' button to simulate the farming season and view your financial outcomes. Click it again and experience another season! 🌟
     """)
 
 # Function to reset simulation history
@@ -302,12 +315,22 @@ if st.session_state['simulation_history']:
     total_costs = history_df["Costs"].sum()
     total_net_profit = history_df["Net Profit"].sum()
 
-    st.markdown(f"""
-        ### 💰 Simulation Summary
-        - **Total Revenue:** ${total_revenue}
-        - **Total Costs:** ${total_costs}
-        - **Total Net Profit:** ${total_net_profit}
+    # --- Simulation Summary ---
+    simulation_summary = pd.DataFrame([
+        {"Metric": "💰 Total Revenue", "Value": f"${round(total_revenue, 2)}"},
+        {"Metric": "💸 Total Costs", "Value": f"${round(total_costs, 2)}"},
+        {"Metric": "🏆 Net Profit", "Value": f"${round(total_net_profit, 2)}"}
+    ])
+
+    # Style the summary as a visually engaging Markdown table
+    st.subheader("🏆 🌟 Simulation Summary 🌟")
+    st.markdown("""
+        **Here's how your farming strategies performed this season!**  
     """)
+
+    # Convert the summary DataFrame to a markdown-styled table
+    styled_summary = simulation_summary.to_markdown(index=False, tablefmt="pretty")
+    st.markdown(f"```\n{styled_summary}\n```")
 
     # Define columns for the visualizations
     col1, col2 = st.columns(2)
@@ -368,20 +391,33 @@ if st.session_state['simulation_history']:
     )
     st.plotly_chart(net_profit_fig)
 
-    # Simulation History Table (below the chart)
-    st.subheader("Simulation History")
+    # --- Simulation History ---
+    simulation_history = pd.DataFrame([
+        {
+            "Simulation": f"Sim {index + 1}",
+            "Year Type": f"🌞 {row['Year Type']}" if row["Year Type"] == "Normal" else f"🌩️ {row['Year Type']}",
+            "Revenue ($)": round(row["Revenue"], 2),
+            "Costs ($)": round(row["Costs"], 2),
+            "Net Profit ($)": round(row["Net Profit"], 2),
+        }
+        for index, row in history_df.iterrows()
+    ])
 
-    # Style rows based on the Year Type column
-    def highlight_rows(row):
-        if row["Year Type"] == "Normal":
-            return ['background-color: #DFF2BF'] * len(row)  # Light Green for Normal years
-        elif row["Year Type"] == "Bad":
-            return ['background-color: #FFBABA'] * len(row)  # Light Red for Bad years
-        else:
-            return [''] * len(row)  # No styling for others
+    # Add rank-like formatting with emojis for years
+    emoji_map = {"Normal": "🌞", "Bad": "🌩️"}  # Emojis for Year Types
 
-    styled_df = history_df.style.apply(highlight_rows, axis=1)
-    st.dataframe(styled_df)  # Display the styled DataFrame
+    # Reorder columns for better readability
+    simulation_history = simulation_history[["Simulation", "Year Type", "Revenue ($)", "Costs ($)", "Net Profit ($)"]]
+
+    # Style the history table as a fun and visually engaging Markdown table
+    st.subheader("🏆 🌟 Simulation History 🌟")
+    st.markdown("""
+        **How did your strategies perform across different farming seasons?**  
+    """)
+
+    # Convert the simulation history DataFrame to a markdown-styled table
+    styled_simulation_history = simulation_history.to_markdown(index=False, tablefmt="pretty")
+    st.markdown(f"```\n{styled_simulation_history}\n```")
 
 # Add a copyright line at the bottom of the page
 st.markdown(

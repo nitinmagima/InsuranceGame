@@ -13,13 +13,13 @@ st.set_page_config(
 st.title("🌟 Racing Through Farming Strategies 🌾")
 
 st.markdown("""
-So, you've taken on the Farming Challenge and made your choices—well done, farmer! 👩‍🌾👨‍🌾 But have you ever wondered how those decisions stack up against other strategies?  
+So, you've taken on [The Farming Challenge](https://agri-insurance-game.streamlit.app/) and made your choices—well done, farmer! 👩‍🌾👨‍🌾 But have you ever wondered how those decisions stack up against other strategies?  
 
 This is your chance to explore how other farmers would have performed under different weather scenarios. Curious to see how the **Traditional Farmer** or the **Strategic Planner** handles extreme weather? Or maybe you're intrigued by the bold decisions of a high-risk taker versus the cautious approach of an insured farmer.  
 
 Watch as different personas navigate the challenges of unpredictable weather, revealing how various choices impact their outcomes.  
 
-Once you've explored your strategies here, don't forget to try the **Science Behind the Game** page to uncover the real-world implications of risk and insurance in farming!
+Once you've explored your strategies here, don't forget to try [The Science Behind the Game](https://agri-insurance-game.streamlit.app/The_Science_Behind_the_Game) page to uncover the real-world implications of risk and insurance in farming!
 """)
 
 
@@ -104,7 +104,7 @@ with st.expander("Instructions", expanded=False):
    Decide how often extreme weather might strike using the return period selector on the left. 🌩️  
    *E.g.*, "once in 2 years" means a 50% chance annually.
 
-2. **Meet the Farming Personas:**  
+2. **Meet the Farming Personas based on Different Farming Strategies:**  
    - **👩‍🌾 Traditional Farmer (No Insurance):**  
      A low-risk, budget-friendly approach of using traditional seeds, but vulnerable to disasters.  
    - **👨‍🌾 Traditional Farmer (With Insurance):**  
@@ -219,6 +219,9 @@ with col1:
 with col3:
     if st.button("Reset Simulation"):
         reset_simulation_history()
+
+st.info("**Run Simulation**: Click the 'Run Simulation' button to simulate the farming season and view how different strategies perform. Click it again and experience another season! 🌟")
+
 
 # Display user feedback outside the column
 if "show_simulation_feedback" in st.session_state and st.session_state["show_simulation_feedback"]:
