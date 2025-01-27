@@ -226,9 +226,9 @@ if "show_simulation_feedback" in st.session_state and st.session_state["show_sim
 
     # Provide feedback based on the global year type
     if global_year_type == "Bad":
-        st.warning("Disaster struck this year! 😔 It was a bad weather year for everyone.")
+        st.warning("Disaster struck this year! 😔 Bad weather affected everyone. Click 'Run Simulation' again to see what the weather holds for next year!")
     else:
-        st.success("It was a normal year. 🌞 Everyone enjoyed favorable weather!")
+        st.success("It was a great year! 🌞 Favorable weather brought good fortune to everyone. Click 'Run Simulation' again to discover next year's weather!")
 
     # Clear the feedback flag after displaying it
     st.session_state["show_simulation_feedback"] = False

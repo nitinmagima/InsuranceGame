@@ -290,9 +290,9 @@ if "simulation_result" in st.session_state:
     st.subheader("Simulation Outcome!")
     result = st.session_state["simulation_result"]
     if result["profit"] < 0:
-        st.warning("Warning: You incurred a loss this season.")
+        st.warning("Warning: You incurred a loss this season. Click 'Run Simulation' again to see if next season turns things around!")
     else:
-        st.success("Success: You made a profit this season.")
+        st.success("Success: You made a profit this season! Click 'Run Simulation' again to see how your strategy fares in the next season!")
 
 if st.session_state['simulation_history']:
     history_df = pd.DataFrame(st.session_state['simulation_history'])
