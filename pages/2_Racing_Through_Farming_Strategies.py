@@ -114,19 +114,19 @@ with st.expander("Instructions", expanded=False):
    - **💼 Strategic Planner (With Insurance):**  
      Combines high investment of high quality seeds with risk management for steady profits.
 
-3. **Run Multiple Simulations:**  
-   Watch the race unfold and see who thrives under various conditions! Each simulation represents one farming season, where the outcomes depend on weather conditions and the farming persona's strategic decisions.
+3. **Run Multiple Weather Simulations:**  
+   Watch the race unfold and see who thrives under various conditions! Each weather simulation represents one farming season, where the outcomes depend on weather conditions and the farming persona's strategic decisions.
 
 4. **Analyze Results:**  
-   Check the leaderboard to identify the winning strategy and visualize the profit. Running multiple simulations allows you to see how strategies perform over time, helping you refine your approach and uncover patterns for success. 🏆🌾
+   Check the leaderboard to identify the winning strategy and visualize the profit. Running multiple weather simulations allows you to see how strategies perform over time, helping you refine your approach and uncover patterns for success. 🏆🌾
     """)
 
     st.markdown("""
-            To assist you in making informed decisions, refer to the table below, which outlines the costs and revenues associated with different seed types and insurance options. To change these default values for the simulations, please visit the **Customize Your Farming Adventure** page.
+            To assist you in making informed decisions, refer to the table below, which outlines the costs and revenues associated with different seed types and insurance options. To change these default values for the weather simulations, please visit the **Customize Your Farming Adventure** page.
             """)
 
     st.markdown("""
-            **Here are the current farming costs and revenues for your simulations:**  
+            **Here are the current farming costs and revenues for your weather simulations:**  
         """)
 
     # Convert parameters DataFrame to a markdown-styled table
@@ -134,7 +134,7 @@ with st.expander("Instructions", expanded=False):
     st.markdown(f"```\n{styled_parameters}\n```")
 
 # --- Simulation Settings ---
-with st.expander("Simulation Settings", expanded=True):
+with st.expander("Weather Simulation Settings", expanded=True):
     return_period_options = {
         "Once in 2 years (50% chance per year)": 50,
         "Once in 5 years (20% chance per year)": 20,
@@ -220,7 +220,7 @@ with col3:
     if st.button("Reset Simulation"):
         reset_simulation_history()
 
-st.info("**Run Simulation**: Click the 'Run Simulation' button to simulate the farming season and view how different strategies perform. Click it again and experience another season! 🌟")
+st.info("**Run Simulation**: Click the 'Run Weather Simulation' button to simulate the farming season and view how different strategies perform. Click it again and experience another season! 🌟")
 
 
 # Display user feedback outside the column
@@ -229,9 +229,9 @@ if "show_simulation_feedback" in st.session_state and st.session_state["show_sim
 
     # Provide feedback based on the global year type
     if global_year_type == "Bad":
-        st.warning("Disaster struck this year! 😔 Bad weather affected everyone. Click 'Run Simulation' again to see what the weather holds for next year!")
+        st.warning("Disaster struck this year! 😔 Bad weather affected everyone. Click 'Run Weather Simulation' again to see what the weather holds for next year!")
     else:
-        st.success("It was a great year! 🌞 Favorable weather brought good fortune to everyone. Click 'Run Simulation' again to discover next year's weather!")
+        st.success("It was a great year! 🌞 Favorable weather brought good fortune to everyone. Click 'Run Weather Simulation' again to discover next year's weather!")
 
     # Clear the feedback flag after displaying it
     st.session_state["show_simulation_feedback"] = False
@@ -275,7 +275,7 @@ if any(st.session_state["persona_simulation_history"].values()):
     race_fig.update_layout(
         title="Farming Personas: Cumulative Profit",
         xaxis=dict(
-            title="Simulation Number (Year Type)",
+            title="Farming Season (Year Type)",
             type='category',
             tickangle=45,
         ),

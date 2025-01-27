@@ -34,7 +34,7 @@ st.markdown(
 
 
 # Collapsible Welcome Message
-with st.expander("**Instructions!**", expanded=False):
+with st.expander("**Click here to Read Instructions!**", expanded=False):
     st.markdown("""
     
     ### 🌟 **How to Play** 🌾
@@ -130,7 +130,7 @@ parameters_df = pd.DataFrame([
 ])
 
 # User Instructions and Inputs
-with st.expander("**Make your Decisions!**", expanded=False):
+with st.expander("**Click here to Make your Decisions!**", expanded=False):
     st.markdown("""
 
         ### 🚜 **Ready to embark on this farming adventure? Make your choices and see if you can beat the odds!**
@@ -274,11 +274,6 @@ def reset_simulation_history():
         del st.session_state["simulation_result"]  # Clear the simulation result
     st.success("Simulation history has been reset. Start fresh and simulate again!")
 
-
-# Function to display the reset confirmation message
-def show_reset_message():
-    st.success("Simulation history has been reset. Start fresh and simulate again!")
-
 # Create three columns with specified width ratios
 col1, col2, col3 = st.columns([2, 4, 2])
 
@@ -323,7 +318,7 @@ if st.session_state['simulation_history']:
     ])
 
     # Style the summary as a visually engaging Markdown table
-    st.subheader("🏆 🌟 Simulation Summary 🌟")
+    st.subheader("🏆 🌟 Farming Season Summary 🌟")
     st.markdown("""
         **Here's how your farming strategies performed this season!**  
     """)
@@ -370,7 +365,7 @@ if st.session_state['simulation_history']:
         st.plotly_chart(bar_fig)
 
     # --- 3. Net Profit Over Simulations (Bar Chart) ---
-    st.subheader("Net Profit Over Simulations")
+    st.subheader("Net Profit Over Farming Seasons")
     colors = ['#99FF99' if x >= 0 else '#FF9999' for x in history_df["Net Profit"]]  # Green for profit, red for loss
     net_profit_fig = go.Figure(
         data=[go.Bar(
@@ -383,7 +378,7 @@ if st.session_state['simulation_history']:
     )
     net_profit_fig.update_layout(
         title=" ",
-        xaxis_title="Simulation Number",
+        xaxis_title="Farming Season",
         yaxis_title="Net Profit ($)",
         title_x=0.5,
         title_font=dict(size=16, family="Arial"),
@@ -394,7 +389,7 @@ if st.session_state['simulation_history']:
     # --- Simulation History ---
     simulation_history = pd.DataFrame([
         {
-            "Simulation": f"Sim {index + 1}",
+            "Farming Season": f"Sim {index + 1}",
             "Year Type": f"🌞 {row['Year Type']}" if row["Year Type"] == "Normal" else f"🌩️ {row['Year Type']}",
             "Revenue ($)": round(row["Revenue"], 2),
             "Costs ($)": round(row["Costs"], 2),
@@ -407,10 +402,10 @@ if st.session_state['simulation_history']:
     emoji_map = {"Normal": "🌞", "Bad": "🌩️"}  # Emojis for Year Types
 
     # Reorder columns for better readability
-    simulation_history = simulation_history[["Simulation", "Year Type", "Revenue ($)", "Costs ($)", "Net Profit ($)"]]
+    simulation_history = simulation_history[["Farming Season", "Year Type", "Revenue ($)", "Costs ($)", "Net Profit ($)"]]
 
     # Style the history table as a fun and visually engaging Markdown table
-    st.subheader("🏆 🌟 Simulation History 🌟")
+    st.subheader("🏆 🌟 Farming Season History 🌟")
     st.markdown("""
         **How did your strategies perform across different farming seasons?**  
     """)
