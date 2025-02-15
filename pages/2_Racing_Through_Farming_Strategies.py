@@ -331,9 +331,14 @@ st.markdown(f"```\n{styled_leaderboard}\n```")
 
 # Add a copyright line at the bottom of the page
 st.markdown(
-    "<div style='text-align: center; margin-top: 50px; font-size: 12px; color: gray;'>"
-    "© Nitin Magima. All rights reserved."
-    "</div>",
+    """
+    <div style='text-align: center; margin-top: 50px; font-size: 12px; color: gray;'>
+        © Nitin Magima. All rights reserved.<br>
+        <a href="https://www.linkedin.com/in/nitin-magima/" target="_blank">
+            <img src="https://cdn-icons-png.flaticon.com/512/174/174857.png" width="20" height="20" style="vertical-align: middle; margin-right: 5px;">
+        </a>
+    </div>
+    """,
     unsafe_allow_html=True
 )
 
