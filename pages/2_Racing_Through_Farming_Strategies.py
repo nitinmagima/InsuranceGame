@@ -10,7 +10,7 @@ st.set_page_config(
 )
 
 # --- App Title ---
-st.title("🌟 Racing Through Farming Strategies 🌾")
+st.title("Racing Through Farming Strategies 🌾")
 
 st.markdown("""
 So, you've taken on [The Farming Challenge](https://agri-insurance-game.streamlit.app/) and made your choices—well done, farmer! 👩‍🌾👨‍🌾 But have you ever wondered how those decisions stack up against other strategies?  
@@ -98,10 +98,10 @@ parameters_df = pd.DataFrame([
 # --- Instructions Section ---
 with st.expander("Instructions", expanded=False):
     st.markdown("""
-### 🌟 **Compare Different Farming Persona Strategies** 🌾
+### **Compare Different Farming Persona Strategies** 
 
 1. **Select Your Weather Risk:**  
-   Decide how often extreme weather might strike using the return period selector on the left. 🌩️  
+   Decide how often extreme weather might strike using the return period selector on the left.   
    *E.g.*, "once in 2 years" means a 50% chance annually.
 
 2. **Meet the Farming Personas based on Different Farming Strategies:**  
@@ -118,7 +118,7 @@ with st.expander("Instructions", expanded=False):
    Watch the race unfold and see who thrives under various conditions! Each weather simulation represents one farming season, where the outcomes depend on weather conditions and the farming persona's strategic decisions.
 
 4. **Analyze Results:**  
-   Check the leaderboard to identify the winning strategy and visualize the profit. Running multiple weather simulations allows you to see how strategies perform over time, helping you refine your approach and uncover patterns for success. 🏆🌾
+   Check the leaderboard to identify the winning strategy and visualize the profit. Running multiple weather simulations allows you to see how strategies perform over time, helping you refine your approach and uncover patterns for success. 
     """)
 
     st.markdown("""
@@ -147,11 +147,11 @@ with st.expander("Weather Simulation Settings", expanded=True):
         "Select Return Period for Extreme Weather Events (Disasters):",
         options=list(return_period_options.keys()),
         help="""
-            🌪️ **How Often Do Extreme Weather Events (Disasters) Strike?**  
+             **How Often Do Extreme Weather Events (Disasters) Strike?**  
             Extreme weather or a disaster is described as “once in N years.” For instance, a 1-in-5-year drought means a **20% chance** of it happening each year.  
 
             But here's the twist: a 20% chance doesn't mean it won't happen back-to-back—nature loves surprises! Similarly, a "1-in-100-year" disaster doesn't wait a century to occur. It has a **1% chance** of happening every single year, no matter when it last occurred.  
-            Plan wisely and expect the unexpected! 🌦️
+            Plan wisely and expect the unexpected! 
             """
     )
 bad_year_probability = return_period_options[selected_return_period] / 100
