@@ -37,40 +37,40 @@ st.markdown(
 with st.expander("**Click here to Read Instructions!**", expanded=False):
     st.markdown("""
     
-    ### 🌟 **How to Play** 🌾
+    ### **How to Play** 
     
     Step into the shoes of a farmer and navigate the exciting world of agriculture, where your decisions can lead to bountiful harvests or challenging seasons. This interactive experience lets you balance potential rewards against the unpredictable forces of nature.
     
     **How to Play:**
     
-    1. **🌱 Choose Your Seeds**  
+    1. ** Choose Your Seeds**  
        - **Traditional Seeds**: Lower cost and modest yields. A safer but less profitable option.  
        - **High-Quality Seeds**: Higher cost and greater potential yields but requires a loan, increasing your financial risk.
     
-    2. **🛡️ Decide on Insurance**  
+    2. ** Decide on Insurance**  
        - Will you safeguard your crops with insurance to mitigate losses during bad weather, or take the risk and farm without it?
     
-    3. **🌦️ Understand the Weather**  
+    3. ** Understand the Weather**  
        - Disasters like droughts or floods are unpredictable. Explore the likelihood of extreme weather events through **return periods**:  
          - *Short return periods*: Frequent extreme weather.  
          - *Long return periods*: Rare extreme weather.  
     
-    4. **🚜 Run the Simulation**  
+    4. ** Run the Simulation**  
        - Each simulation represents one farming season, where you test your chosen strategy against the unpredictability of weather conditions and market dynamics. Witness the results of your decisions as the simulation calculates:  
          - **Year Type**: Is it a normal year or a bad year?  
          - **Revenue**: Earnings from your crops.  
          - **Costs**: Seed, loan interest, and insurance expenses.  
          - **Net Profit**: Revenue minus costs.
          
-    5. **🔁 Run Multiple Simulations**  
+    5. ** Run Multiple Simulations**  
        - Running multiple simulations helps you observe how your strategy performs over time, under varying weather conditions. 
        - Test your strategies, adapt to challenges, and discover the best approach to thrive in any condition.  
 
-    ### 🧩 **Your Goal**  
+    ###  **Your Goal**  
 
     Navigate the challenges of farming by balancing risk and reward! Will you prioritize safety, take bold risks, or find the perfect strategy? The choice is yours. 
     
-    Run multiple simulations to see how your chosen strategy performs over time! 🌟   
+    Run multiple simulations to see how your chosen strategy performs over time!    
     
     **Farming Strategies**
     - 👩‍🌾 Traditional Farmer (Traditional Seeds With No Insurance)
