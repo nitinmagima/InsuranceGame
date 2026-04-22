@@ -124,7 +124,7 @@ parameters_df = pd.DataFrame([
         "Value": f"${st.session_state['insurance_premium']}"
     },
     {
-        "Setting": "Loan Interest Rate (%)",
+        "Setting": "Loan Interest Rate (%) for High Quality Seeds",
         "Value": f"{st.session_state['loan_interest_rate']}%"
     }
 ])
@@ -156,7 +156,7 @@ with st.expander("**Click here to Make your Decisions!**", expanded=False):
     # Display loan information if High Quality seeds are selected
     if seed_type == "High Quality":
         st.markdown("**Note:** High Quality seeds require a loan.")
-        st.markdown(f"**Loan Interest Rate:** {st.session_state['loan_interest_rate']}%")
+        st.markdown(f"**Loan Interest Rate for High Quality Seeds:** {st.session_state['loan_interest_rate']}%")
 
     st.divider()
 

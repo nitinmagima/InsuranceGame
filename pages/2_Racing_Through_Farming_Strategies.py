@@ -90,7 +90,7 @@ parameters_df = pd.DataFrame([
         "Value": f"${st.session_state['insurance_premium']}"
     },
     {
-        "Setting": "Loan Interest Rate (%)",
+        "Setting": "Loan Interest Rate (%) for High Quality Seeds",
         "Value": f"{st.session_state['loan_interest_rate']}%"
     }
 ])

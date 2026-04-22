@@ -76,7 +76,7 @@ with st.expander("Simulation Settings and Adjustments", expanded=True):
     )
 
     st.session_state['loan_interest_rate'] = st.slider(
-        "Loan Interest Rate (%):",
+        "Loan Interest Rate (%) for High Quality Seeds:",
         min_value=0.0,
         max_value=20.0,
         value=st.session_state['loan_interest_rate'],
