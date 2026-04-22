@@ -320,7 +320,7 @@ leaderboard["Emoji"] = leaderboard["Rank"].apply(lambda x: emoji_map[x] if x < l
 leaderboard = leaderboard[["Emoji", "Persona", "Cumulative Profit"]]  # Reorder columns
 
 # Style the leaderboard as a fun and visually engaging Markdown table
-st.subheader("🏆 🌟 The Farming Leaderboard 🌟")
+st.subheader("🏆 The Farming Leaderboard")
 st.markdown("""
     **Which farmer is performing the best?**  
 """)
